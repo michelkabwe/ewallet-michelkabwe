@@ -8,14 +8,16 @@
           </li>
       </ul>
   </p>
-
-              <select v-model="selected">
+             <!--
+              <select @change="vendor" v-model="NewCardInfo.vendor" id="vendor">
               <option disabled value="">Please select one</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
+                <option value="empty" disabled selected hidden>Vendor</option>
+                <option value="bitcoin">Bitcoin</option>
+                <option value="blockchain">Blockchain</option>
+                <option value="ninja">Ninja</option>
+                <option value="evil">Evil</option>
               </select> 
-              <span>Selected: {{ selected }}</span>
+              <span>Selected: {{ vendor }}</span> -->
 
   <div class="card">
         <div class="card-content">
@@ -144,8 +146,8 @@ export default {
 
 .card {
 
-  background: linear-gradient(
- 145deg, #4684c1, #343174);
+    background: linear-gradient(
+    145deg, #4684c1, #343174);
     color: white;
     height: 250px;
     width: 400px;
@@ -169,6 +171,8 @@ export default {
 span.card-number {
  /* position: absolute;
   left: 0px; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
 }
 
 
@@ -233,5 +237,10 @@ padding: 1rem;
 border-radius: 20px;
 margin-top: 10px;
 }
+
+  .blockchain {
+      background-color: #7f50e4;
+      color: #fff;
+    }
 
 </style>
