@@ -1,6 +1,6 @@
 <template>
 <div>
-    <p v-if="error.length">
+    <p v-if="error.length > 0 ? true : false">
           <b>Please correct the flowing errors</b>
       <ul>
           <li v-for="e in error" v-bind:key="e.id">
@@ -53,7 +53,7 @@
 
       <label for="cardHolder">CARD HOLDER NAME</label>
        <input type="text" v-model="NewCardInfo.cardHolder" placeholder="Name"
-      id="Letter" @keypress="validateLetter" :maxlength="maxLengthNname"
+      id="Letter" @keypress="validateLetter" :maxlength="maxLengthName"
       > <!-- input validation, letters only -->
 
        <label for="cardHolder">VALID THRU</label>
@@ -63,8 +63,8 @@
   
 
           <!--<router-link :to="{name: 'Home'}">-->
-                <button @click="addCard">AddCard</button>
-          <!--</router-link>   -->
+                <button type="button" @click="addCard" >AddCard</button>
+          <!--</router-link> -->
   </form>
 
 
@@ -76,11 +76,12 @@
 
 <script>
 
-
+const STORAGE_KEY = 'card-storage';
 export default {
  data(){
    
     return {
+      stringArray: [],
       NewCardInfo: { 
             cardNumber:null 
             ,cardHolder: null
@@ -88,14 +89,33 @@ export default {
             },error:[]
             ,maxLength: 16
             ,maxLengthDate: 4
-            
-      
-                                                            
- }
-
+            ,maxLengthName:''
+            ,
+          }
  },
+         
+        created() {
+   this.NewCardInfo = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
  
+
+
+},
+
  methods: {
+
+   updateLocalStorage(infoToUpdateObject){ //plocka local + updstera local.. info2update infon vi skickar in.. nnya kortet
+  
+     this.stringArray.push(infoToUpdateObject)
+     
+
+     console.log(JSON.stringify(this.stringArray));
+     console.log(infoToUpdateObject);
+     console.log(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+     localStorage.setItem(STORAGE_KEY, JSON.stringify(this.stringArray));
+     // return this.stringArray
+ 
+   },
+
     addCard() { 
       if(this.NewCardInfo.cardNumber && this.NewCardInfo.cardHolder && this.NewCardInfo.date){   //if the cardnumber is set
         console.log('card number succeed!');
@@ -111,11 +131,14 @@ export default {
           
           
           
+          
               cardNumber: this.cardNumSpacing(this.NewCardInfo.cardNumber),
-              cardHolder: this.NewCardInfo.cardHolder 
-               
+              cardHolder: this.NewCardInfo.cardHolder
               
-        })
+              
+        });
+        //localStorage.setItem(STORAGE_KEY, JSON.stringify(this.NewCardInfo));
+        this.updateLocalStorage(this.NewCardInfo) 
          this.$router.push({ name: 'Home'})
        } // här
       },
@@ -133,6 +156,7 @@ export default {
         cardNumSpacing(s) {
           return s.toString().replace(/\d{4}(?=.)/g, '$& ');
         },
+        
 
       
       
@@ -169,8 +193,6 @@ export default {
 }
 
 span.card-number {
- /* position: absolute;
-  left: 0px; */
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.5rem;
 }
@@ -184,9 +206,6 @@ float: right;
 span.card-name {
  float: left;
 }
-
-
-
 
 .small-box-chip {
 

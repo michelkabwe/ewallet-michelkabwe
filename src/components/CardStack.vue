@@ -17,31 +17,20 @@
 
 <script>
 
-
 export default {
 
   
 
   data(){
       
-    
       return {
-        items: this.$root.items,
-        
-       
-     
-       
-  }
-
+        items: this.$root.items
+         
+    }
+    
   },
-   
-     mounted() {
-     const el = document.querySelector('.inactivecard ') ;
-     el.style.backgroundColor = "#8402a1";
-  },
-
-
- 
+  
+    
   methods: {
 
      makeCardActive(index) {
@@ -70,14 +59,16 @@ getCard() {
               ccv: this.NewCardInfo.ccv,
               vendor: this.NewCardInfo.vendor
               
+              
 
         })
+
         this.NewCardInfo.vendorClass = ''
         this.NewCardInfo.cardNumber = ''
         this.NewCardInfo.cardHolder = ''
         this.NewCardInfo.ccv = ''
         this.NewCardInfo.vendor = ''
-  
+
        
 },
 
